@@ -18,6 +18,7 @@ void reverse_iterative();
 void display_reverse(Node *);
 void reverse_recurrsive(Node *);
 void deleteList();
+int search_element(Node *, int, int);
 
 int main()
 {
@@ -33,10 +34,13 @@ int main()
     displayList();
     void deleteList();
     displayList();
+
+    // testing searching opration
+    printf("%d\n", search_element(head, 43, 0));
     return 0;
 }
 
-void displayList()
+void displayList() // prints the list on the console
 {
     Node *temp = head;
     if (temp == NULL)
@@ -53,7 +57,23 @@ void displayList()
     printf("\n");
 }
 
-void insert(int x, int n)
+int search_element(Node *head, int x, int index)
+{
+    Node *temp = head; // temporary pointer
+    if (temp == NULL)
+    {
+        return -1;
+    }
+    if (temp->data == x)
+    {
+        return index; // returns at which the element is present
+    }
+    index++; // increment in index if x not found in present index
+
+    return search_element(temp->link, x, index); // recursive call
+}
+
+void insert(int x, int n) // insert x at nth position
 {
     Node *newNode = (Node *)malloc(sizeof(Node));
     newNode->data = x;
@@ -75,7 +95,7 @@ void insert(int x, int n)
     displayList();
 }
 
-void delete(int n)
+void delete (int n) // delete nth node
 {
     Node *current = head;
     if (n == 1)
@@ -111,7 +131,7 @@ void reverse_iterative()
     displayList();
 }
 
-void display_reverse(Node *head)
+void display_reverse(Node *head) // only prints a reversed list, no actual reversal
 {
     Node *temp = head;
     if (temp != NULL)
@@ -139,7 +159,7 @@ void reverse_recurrsive(Node *p)
     p->link = NULL;
 }
 
-void deleteList()
+void deleteList() // deletes the whole list
 {
     Node *temp = head;
     while (temp != NULL)
