@@ -1,4 +1,4 @@
-// This is for DELEATING a node from the tree
+// This is for DELEATING a node from the tree and finding INORDER-SUCCESSOR
 
 #include <iostream>
 using namespace std;
@@ -11,6 +11,7 @@ struct bstNode
 };
 
 
+
 bstNode *getNewNode(int x)
 {
     bstNode *newNode = new bstNode;
@@ -19,6 +20,7 @@ bstNode *getNewNode(int x)
     newNode->right = NULL;
     return newNode;
 }
+
 
 
 bstNode *insertNode(bstNode *root, int x)
@@ -39,8 +41,9 @@ bstNode *insertNode(bstNode *root, int x)
 }
 
 
-void inOrderTrans(bstNode *root)    // to check if the node is deleted or not
-{ 
+
+void inOrderTrans(bstNode *root) // to check if the node is deleted or not
+{
     if (root == NULL)
     {
         return;
@@ -49,9 +52,6 @@ void inOrderTrans(bstNode *root)    // to check if the node is deleted or not
     cout << root->data << " ";
     inOrderTrans(root->right);
 }
-
-
-
 
 
 
@@ -109,14 +109,72 @@ bstNode *deleteNode(bstNode *root, int x)
             bstNode *replacement = findmax(root->left); // findmax will find min in left subtree of node to be deleted
             root->data = replacement->data;
             root->left = deleteNode(root->left, replacement->data);
-        } 
+        }
     }
     return root;
 }
 
 
 
-
+bstNode *findMin(bstNode *node) // finds the minimum in a tree
+{
+    while (node->left != NULL) // in BST min is in the left most node
+    {
+        node = node->left;
+    }
+    return node;
+}
+bstNode *findNode(bstNode *root, int x) // finds the node with data x
+{
+    if (root == NULL)
+    {
+        return NULL;
+    }
+    if (x == root->data) // found the node
+    {
+        return root;
+    }
+    if (x > root->data) // if condition ture go to the right node of the tree
+    {
+        return findNode(root->right, x);
+    }
+    else
+    {
+        return findNode(root->left, x);
+    }
+}
+bstNode *inorder_successor(bstNode *root, int x) // finds the inorder successor of a element in the tree
+{
+    bstNode *current = findNode(root, x);
+    if (current == NULL)
+    {
+        return NULL; // node of which inorder successor is to be found is not present in the tree
+    }
+    if (current == findmax(root))
+        return current; // current->data is the largest in the tree
+    if (current->right != NULL)
+    {
+        return findMin(current->right); // min in right tree will be inorder-succossor
+    }
+    else // if node have no right subtree
+    {
+        bstNode *ancestor = root;
+        bstNode *successor = NULL;
+        while (ancestor != current) // reaching the current node and finding ancestor on the way
+        {
+            if (current->data < ancestor->data) // checking for the successor
+            {
+                successor = ancestor;
+                ancestor = ancestor->left;
+            }
+            else
+            {
+                ancestor = ancestor->right;
+            }
+        }
+        return successor;
+    }
+}
 
 int main()
 {
@@ -131,9 +189,15 @@ int main()
     inOrderTrans(root);
     cout << "\n";
 
-    root = deleteNode(root, 25);
+    bstNode *ans = inorder_successor(root, 43);
+    if (ans == NULL)
+        printf("-1\n");
+    else
+        cout << ans->data << endl;
 
-    inOrderTrans(root);
-    cout << "\n";
+    // root = deleteNode(root, 25);
+
+    // inOrderTrans(root);
+    // cout << "\n";
     return 0;
 }
