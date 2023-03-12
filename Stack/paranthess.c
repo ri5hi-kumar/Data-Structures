@@ -1,10 +1,5 @@
 // Checking for balanced paranthess
 
-/* all this shit could have been done in c++ pretty easily
-and yet I decided to fuck myself by writting all this stack
-code and fuctions */
-
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
