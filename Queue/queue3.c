@@ -1,4 +1,4 @@
-// An array implementation of queue
+// An circular array implementation of queue
 
 /*
     In this implementation we use a array which is circular. This array is not actually circular but we manipulate the indices
