@@ -1,6 +1,8 @@
 /*
 Countingsort sorts an array in O(n) time, given that all the elements in the input array are integers and in range(0, k). It sorts the
-array by making a count of how many elements come before the element x so it can place the element in the next position
+array by making a count of how many elements come before the element x so it can place the element in the next position. This sorting
+algorithm is also a stable algorithm as the duplicate elements are ordered same as in the original array i.e in case of duplicates the
+element which came first in the original array is also first in the sorted array.
 */
 
 #include<iostream>
